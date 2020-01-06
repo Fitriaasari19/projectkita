@@ -1,0 +1,28 @@
+<?php
+session_start();
+include 'koneksi.php';
+
+if (isset($_SESSION['login'])) {
+	header("location: menu.php");
+	exit();
+} 
+if (isset($_POST['username'])) {
+$username = $_POST ['username'];
+$password = $_POST ['password'];
+
+$conn = mysqli_connect('localhost','fitriaasari','Fitriana19','cv');
+
+$query = mysqli_query($conn, "SELECT * FROM log WHERE username = '$username' and password = '$password'") or die(mysqli_error ($conn));
+if (mysqli_num_rows( $query)==1){
+
+	header('location: menu.php');
+	$_SESSION['username'] = $username;
+	exit;
+}
+else{
+	
+	echo "Maaf Akun anda belum terdaftar. <a href = 'index.php'>Kembali</a>";
+}
+}
+
+?>
